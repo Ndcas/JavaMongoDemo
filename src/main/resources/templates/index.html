@@ -16,6 +16,12 @@
             <h2>Filter</h2>
             <form action="/filter">
                 <div class="form-group row mb-3">
+                    <label for="id" class="col-2">Zip code</label>
+                    <div class="col-2">
+                        <input type="text" class="form-control" name="id" th:value="${id}">
+                    </div>
+                </div>
+                <div class="form-group row mb-3">
                     <label for="city" class="col-2">City</label>
                     <div class="col-2">
                         <input type="text" class="form-control" name="city" th:value="${city}">
@@ -68,6 +74,7 @@
             <table id="zips" class="display w-100">
                 <thead>
                     <tr>
+                        <th>Zip code</th>
                         <th>City</th>
                         <th>Longtitude</th>
                         <th>Latitude</th>
@@ -78,6 +85,7 @@
                 </thead>
                 <tbody>
                     <tr th:each="zip : ${zips}">
+                        <td th:text="${zip.id}"></td>
                         <td th:text="${zip.city}"></td>
                         <td th:text="${zip.loc[0]}"></td>
                         <td th:text="${zip.loc[1]}"></td>

@@ -7,7 +7,7 @@ $(document).ready(function () {
 });
 
 function deleteZip(name, id) {
-    let conf = confirm(`Are you sure to delete the selected zip code of ${name}`);
+    let conf = confirm(`Are you sure to delete the selected zip code ${id} of ${name}?`);
     if (!conf) {
         return;
     }

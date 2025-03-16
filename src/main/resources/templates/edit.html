@@ -12,7 +12,12 @@
             <a class="btn btn-primary mb-3" href="/">Back</a>
             <h2>Edit zip code</h2>
             <form action="/editZip" method="post">
-                <input type="hidden" name="id" th:value="${zip.id}">
+                <div class="form-group row mb-3">
+                    <label for="id" class="col">Zip code</label>
+                    <div class="col">
+                        <input type="text" class="form-control-plaintext" name="id" required th:value="${zip.id}">
+                    </div>
+                </div>
                 <div class="form-group row mb-3">
                     <label for="city" class="col">City</label>
                     <div class="col">

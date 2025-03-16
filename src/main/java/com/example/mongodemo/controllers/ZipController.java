@@ -33,6 +33,7 @@ public class ZipController {
     @RequestMapping("/filter")
     public String filter(
             ModelMap model,
+            @RequestParam(required = false) String id,
             @RequestParam(required = false) String city,
             @RequestParam int longOp,
             @RequestParam(required = false) Double longtitude,
@@ -42,8 +43,12 @@ public class ZipController {
             @RequestParam(required = false) Long pop,
             @RequestParam(required = false) String state) {
         Query query = new Query();
+        if (id != null && id.trim().length() > 0) {
+            query.addCriteria(Criteria.where("_id").regex("^" + id.trim()));
+            model.addAttribute("id", id.trim());
+        }
         if (city != null && city.trim().length() > 0) {
-            query.addCriteria(Criteria.where("city").regex(city.trim(), "i"));
+            query.addCriteria(Criteria.where("city").regex("^" + city.trim(), "i"));
             model.addAttribute("city", city.trim());
         }
         if (longtitude != null) {
@@ -98,12 +103,14 @@ public class ZipController {
     @RequestMapping(value = "/createZip", method = RequestMethod.POST)
     public String createZip(
             ModelMap model,
+            @RequestParam String id,
             @RequestParam String city,
             @RequestParam double longtitude,
             @RequestParam double latitude,
             @RequestParam long pop,
             @RequestParam String state) {
         Zip zip = new Zip();
+        zip.setId(id);
         zip.setCity(city.trim());
         ArrayList<Double> loc = new ArrayList();
         loc.add(longtitude);
@@ -111,6 +118,10 @@ public class ZipController {
         zip.setLoc(loc);
         zip.setPop(pop >= 0 ? pop : 0);
         zip.setState(state);
+        if (zipRepository.findById(id).isPresent()) {
+            model.addAttribute("status", -1);
+            return "create";
+        }
         zipRepository.save(zip);
         model.addAttribute("status", 0);
         return "create";
