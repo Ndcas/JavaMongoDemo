@@ -139,8 +139,12 @@ public class ZipController {
         loc.add(longtitude);
         loc.add(latitude);
         Zip zip = new Zip(id, city, loc, pop, state);
-        zip = zipRepository.save(zip);
         model.addAttribute("zip", zip);
+        if (zipRepository.findById(id).isEmpty()) {
+            model.addAttribute("status", -1);
+            return "edit";
+        }
+        zipRepository.save(zip);
         model.addAttribute("status", 0);
         return "edit";
     }
